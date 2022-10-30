@@ -27,6 +27,8 @@ jobs:
           paths:
             - ./releases
   upload-github:
+    context:
+      - Github
     executor: go
     steps:
       - attach_workspace:
