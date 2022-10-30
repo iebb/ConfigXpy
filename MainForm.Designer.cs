@@ -79,7 +79,7 @@
             this.cmbSource.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.cmbSource.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.cmbSource.FormattingEnabled = true;
-            this.cmbSource.Hint = "From Account";
+            this.cmbSource.Hint = "From Account / 源账号";
             this.cmbSource.IntegralHeight = false;
             this.cmbSource.ItemHeight = 43;
             this.cmbSource.Location = new System.Drawing.Point(20, 82);
@@ -105,7 +105,7 @@
             this.cmbDest.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.cmbDest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.cmbDest.FormattingEnabled = true;
-            this.cmbDest.Hint = "To Account";
+            this.cmbDest.Hint = "To Account / 复制到";
             this.cmbDest.IntegralHeight = false;
             this.cmbDest.ItemHeight = 43;
             this.cmbDest.Location = new System.Drawing.Point(20, 239);
@@ -200,7 +200,7 @@
             this.materialTextBoxLaunch.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.materialTextBoxLaunch.Depth = 0;
             this.materialTextBoxLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.materialTextBoxLaunch.Hint = "Launch Options";
+            this.materialTextBoxLaunch.Hint = "Launch Options / 启动项";
             this.materialTextBoxLaunch.LeadingIcon = null;
             this.materialTextBoxLaunch.Location = new System.Drawing.Point(20, 137);
             this.materialTextBoxLaunch.MaxLength = 50;
@@ -226,9 +226,9 @@
             this.chkVideo.Name = "chkVideo";
             this.chkVideo.ReadOnly = false;
             this.chkVideo.Ripple = true;
-            this.chkVideo.Size = new System.Drawing.Size(137, 37);
+            this.chkVideo.Size = new System.Drawing.Size(216, 37);
             this.chkVideo.TabIndex = 12;
-            this.chkVideo.Text = "Video Settings";
+            this.chkVideo.Text = "Video Settings / 显示设置";
             this.chkVideo.UseVisualStyleBackColor = true;
             // 
             // materialDestLaunch
@@ -239,7 +239,7 @@
             this.materialDestLaunch.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.materialDestLaunch.Depth = 0;
             this.materialDestLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.materialDestLaunch.Hint = "Launch Options";
+            this.materialDestLaunch.Hint = "Launch Options / 启动项";
             this.materialDestLaunch.LeadingIcon = null;
             this.materialDestLaunch.Location = new System.Drawing.Point(20, 294);
             this.materialDestLaunch.MaxLength = 50;
@@ -291,7 +291,7 @@
             this.MaximumSize = new System.Drawing.Size(1080, 450);
             this.MinimumSize = new System.Drawing.Size(500, 450);
             this.Name = "MainForm";
-            this.Text = "CS:GO Config Replicator";
+            this.Text = "CS:GO Config Replicator by ieb";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

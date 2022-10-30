@@ -9,6 +9,14 @@ using System.Threading.Tasks;
 
 namespace ConfigXpy
 {
+    public static class VdfExtensions
+    {
+        public static VToken Get(this VToken obj, string key)
+        {
+            return obj.Children<VProperty>().First(x => x.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase)).Value;
+        }
+    }
+
     internal class SteamConfig
     {
         const string TargetAppId = "730";
@@ -70,7 +78,7 @@ namespace ConfigXpy
 
             try
             {
-                VToken? launchOptions = vdfConfig["Software"]?["Valve"]?["Steam"]?["apps"]?[TargetAppId]?["LaunchOptions"];
+                VToken? launchOptions = vdfConfig?.Get("Software")?.Get("Valve")?.Get("Steam")?.Get("apps")?.Get(TargetAppId)?.Get("LaunchOptions");
                 if (launchOptions == null) return "";
                 return launchOptions.ToString();
             }
@@ -81,13 +89,23 @@ namespace ConfigXpy
             try
             {
                 VValue launchOpt = new VValue(launchOptions);
-                VToken? apps = vdfConfig["Software"]?["Valve"]?["Steam"]?["apps"];
+                VToken? apps = vdfConfig?.Get("Software")?.Get("Valve")?.Get("Steam")?.Get("apps");
                 if (apps == null) return false;
-                if (apps[TargetAppId] == null)
+                VObject appNode;
+
+                if (apps[TargetAppId] == null) apps[TargetAppId] = new VObject();
+                appNode = (VObject)apps[TargetAppId];
+
+                var launchKey = "LaunchOptions";
+                var targetKey = appNode.Children<VProperty>().First(x => x.Key.Equals(launchKey, StringComparison.InvariantCultureIgnoreCase));
+                if (targetKey != null)
                 {
-                    apps[TargetAppId] = new VObject();
+                    appNode[targetKey.Key] = launchOpt;
+                } 
+                else
+                {
+                    appNode[launchKey] = launchOpt;
                 }
-                apps[TargetAppId]["LaunchOptions"] = launchOpt;
             }
             catch (Exception) { return false; }
             string s = VdfConvert.Serialize(this.vProperty);
