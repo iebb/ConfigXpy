@@ -97,10 +97,10 @@ namespace ConfigXpy
                 appNode = (VObject)apps[TargetAppId];
 
                 var launchKey = "LaunchOptions";
-                var targetKey = appNode.Children<VProperty>().First(x => x.Key.Equals(launchKey, StringComparison.InvariantCultureIgnoreCase));
-                if (targetKey != null)
+                var targetKeys = appNode.Children<VProperty>().Where(x => x.Key.Equals(launchKey, StringComparison.InvariantCultureIgnoreCase));
+                if (targetKeys.Count() > 0)
                 {
-                    appNode[targetKey.Key] = launchOpt;
+                    appNode[targetKeys.First().Key] = launchOpt;
                 } 
                 else
                 {

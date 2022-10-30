@@ -265,9 +265,9 @@
             this.chkLaunchOptions.Name = "chkLaunchOptions";
             this.chkLaunchOptions.ReadOnly = false;
             this.chkLaunchOptions.Ripple = true;
-            this.chkLaunchOptions.Size = new System.Drawing.Size(293, 37);
+            this.chkLaunchOptions.Size = new System.Drawing.Size(356, 37);
             this.chkLaunchOptions.TabIndex = 14;
-            this.chkLaunchOptions.Text = "Launch Options (Requires Relaunch)";
+            this.chkLaunchOptions.Text = "Launch Options / 启动项（需要重启 Steam）";
             this.chkLaunchOptions.UseVisualStyleBackColor = true;
             // 
             // MainForm
