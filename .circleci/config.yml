@@ -27,8 +27,6 @@ jobs:
           paths:
             - ./releases
   upload-github:
-    context:
-      - Github
     executor: go
     steps:
       - attach_workspace:
@@ -45,5 +43,7 @@ workflows:
     jobs:
       - build-singlepackage
       - upload-github:
+          context:
+            - Github
           requires:
             - build-singlepackage
