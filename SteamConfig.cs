@@ -27,20 +27,21 @@ namespace ConfigXpy
         {
             try
             {
-                VToken? steamApps = vdfConfig["Software"]["Valve"]["Steam"]["apps"];
-                VToken? goConfig = steamApps["730"];
-                if (goConfig == null)
-                {
-                    return "";
-                }
+                VToken? Software = vdfConfig["Software"];
+                if (Software == null) return "";
+                VToken? Valve = Software["Valve"];
+                if (Valve == null) return "";
+                VToken? Steam = Valve["Steam"];
+                if (Steam == null) return "";
+                VToken? apps = Steam["apps"];
+                if (apps == null) return "";
+                VToken? goConfig = apps["730"];
+                if (goConfig == null) return "";
                 VToken? launchOptions = goConfig["LaunchOptions"];
-                if (launchOptions == null)
-                {
-                    return "";
-                }
+                if (launchOptions == null) return "";
                 return launchOptions.ToString();
             }
-            catch (Exception ex) { return ""; }
+            catch (Exception) { return ""; }
         }
         public string GetConfigPath()
         {

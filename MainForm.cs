@@ -15,7 +15,7 @@ namespace ConfigXpy
     {
         private readonly MaterialSkinManager materialSkinManager;
         List<SteamConfig> configs = new List<SteamConfig>();
-        string currentActiveUser;
+        string currentActiveUser = "";
 
         public MainForm()
         {
@@ -72,7 +72,7 @@ namespace ConfigXpy
                         string name = val["friends"]["PersonaName"].ToString();
                         configs.Add(new SteamConfig(baseName, directory, name, val));
                     }
-                    catch (Exception ex) { }
+                    catch (Exception) { }
                 }
             }
 
@@ -97,6 +97,8 @@ namespace ConfigXpy
                     cmbDest.SelectedIndex = index;
                     var launch = configs[cmbDest.SelectedIndex].GetLaunchOptions();
                     materialDestLaunch.Text = launch.ToString();
+                    btnCopy.Enabled = false;
+                    btnCopy.UseAccentColor = false;
                 }
                 index++;
             }
@@ -107,6 +109,8 @@ namespace ConfigXpy
             var launch = configs[cmbSource.SelectedIndex].GetLaunchOptions();
             materialTextBoxLaunch.Text = launch.ToString();
             btnCopy.Enabled = (cmbDest.SelectedIndex != cmbSource.SelectedIndex);
+            btnCopy.Text = "Replicate";
+            btnCopy.UseAccentColor = false;
         }
 
         private void cmbDest_SelectedIndexChanged(object sender, EventArgs e)
@@ -114,22 +118,35 @@ namespace ConfigXpy
             var launch = configs[cmbDest.SelectedIndex].GetLaunchOptions();
             materialDestLaunch.Text = launch.ToString();
             btnCopy.Enabled = (cmbDest.SelectedIndex != cmbSource.SelectedIndex);
+            btnCopy.Text = "Replicate";
+            btnCopy.UseAccentColor = false;
         }
 
         private void btnCopy_Click(object sender, EventArgs e)
         {
-            var sourceDir = configs[cmbSource.SelectedIndex].GetConfigPath();
-            var targetDir = configs[cmbDest.SelectedIndex].GetConfigPath();
-            Directory.CreateDirectory(targetDir);
-            var files = Directory.GetFiles(sourceDir);
-            foreach (var file in files)
+            if (cmbSource.SelectedIndex >= 0 && cmbDest.SelectedIndex >= 0)
             {
-                if ((file.EndsWith(".cfg") && chkCopyCfg.Checked) || (file.EndsWith(".txt") && chkVideo.Checked))
+                var sourceDir = configs[cmbSource.SelectedIndex].GetConfigPath();
+                var targetDir = configs[cmbDest.SelectedIndex].GetConfigPath();
+                Directory.CreateDirectory(targetDir);
+                var files = Directory.GetFiles(sourceDir);
+                int cnt = 0;
+                foreach (var file in files)
                 {
-                    var target = targetDir + Path.GetFileName(file);
-                    var sourceFile = new FileInfo(file);
-                    sourceFile.CopyTo(target, true);
+                    if ((file.EndsWith(".cfg") && chkCopyCfg.Checked) || (file.EndsWith(".txt") && chkVideo.Checked))
+                    {
+                        var target = targetDir + Path.GetFileName(file);
+                        var sourceFile = new FileInfo(file);
+                        try
+                        {
+                            sourceFile.CopyTo(target, true);
+                            cnt += 1;
+                        }
+                        catch (Exception) { }
+                    }
                 }
+                btnCopy.Text = String.Format("{0} copied", cnt);
+                btnCopy.UseAccentColor = true;
             }
         }
     }
