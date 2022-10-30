@@ -1,6 +1,8 @@
-﻿using Gameloop.Vdf.Linq;
+﻿using Gameloop.Vdf;
+using Gameloop.Vdf.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,43 +11,92 @@ namespace ConfigXpy
 {
     internal class SteamConfig
     {
-        // Int32 steamID;
+        const string TargetAppId = "730";
+
+        public Int32 steamIDInt;
         public string steamID;
         public string username;
+        public string fileName;
         public string userdataDir;
         public VToken vdfConfig;
+        public VProperty vProperty;
 
-        public SteamConfig(string steamID, string userdataDir, string username, VToken vdfConfig)
+        public SteamConfig(string userdataDir)
         {
-            this.steamID = steamID;
+
             this.userdataDir = userdataDir;
-            this.username = username;
-            this.vdfConfig = vdfConfig;
+            var baseName = Path.GetFileName(userdataDir);
+            this.steamID = baseName;
+            this.steamIDInt = Int32.Parse(baseName);
+
+            this.fileName = userdataDir + "\\config\\localconfig.vdf";
+            if (!File.Exists(this.fileName))
+            {
+                throw new Exception("Local config not found");
+            }
+            var content = File.ReadAllText(this.fileName);
+
+            this.vProperty = VdfConvert.Deserialize(
+                content, new VdfSerializerSettings()
+                {
+                    MaximumTokenSize = 65536,
+                    UsesEscapeSequences = true
+                }
+            );
+            this.vdfConfig = vProperty.Value;
+
+            try
+            {
+                VToken? vPersonaName = vdfConfig["friends"]?["PersonaName"];
+                if (vPersonaName != null)
+                {
+                    this.username = vPersonaName.ToString();
+                }
+            }
+            catch (Exception) { }
         }
 
         public string GetLaunchOptions()
         {
+            var content = File.ReadAllText(this.fileName);
+            this.vProperty = VdfConvert.Deserialize(
+                content, new VdfSerializerSettings()
+                {
+                    MaximumTokenSize = 65536,
+                    UsesEscapeSequences = true
+                }
+            );
+            this.vdfConfig = vProperty.Value;
+
             try
             {
-                VToken? Software = vdfConfig["Software"];
-                if (Software == null) return "";
-                VToken? Valve = Software["Valve"];
-                if (Valve == null) return "";
-                VToken? Steam = Valve["Steam"];
-                if (Steam == null) return "";
-                VToken? apps = Steam["apps"];
-                if (apps == null) return "";
-                VToken? goConfig = apps["730"];
-                if (goConfig == null) return "";
-                VToken? launchOptions = goConfig["LaunchOptions"];
+                VToken? launchOptions = vdfConfig["Software"]?["Valve"]?["Steam"]?["apps"]?[TargetAppId]?["LaunchOptions"];
                 if (launchOptions == null) return "";
                 return launchOptions.ToString();
             }
             catch (Exception) { return ""; }
         }
+        public bool WriteLaunchOptions(string launchOptions)
+        {
+            try
+            {
+                VValue launchOpt = new VValue(launchOptions);
+                VToken? apps = vdfConfig["Software"]?["Valve"]?["Steam"]?["apps"];
+                if (apps == null) return false;
+                if (apps[TargetAppId] == null)
+                {
+                    apps[TargetAppId] = new VObject();
+                }
+                apps[TargetAppId]["LaunchOptions"] = launchOpt;
+            }
+            catch (Exception) { return false; }
+            string s = VdfConvert.Serialize(this.vProperty);
+            File.WriteAllText(this.fileName, s);
+            return true;
+        }
         public string GetConfigPath()
         {
-            return userdataDir + "\\730\\local\\cfg\\";
+            return userdataDir + "\\" + TargetAppId + "\\local\\cfg\\";
         }
     }
 }

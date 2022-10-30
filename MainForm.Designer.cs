@@ -40,6 +40,7 @@
             this.materialTextBoxLaunch = new MaterialSkin.Controls.MaterialTextBox();
             this.chkVideo = new MaterialSkin.Controls.MaterialCheckbox();
             this.materialDestLaunch = new MaterialSkin.Controls.MaterialTextBox();
+            this.chkLaunchOptions = new MaterialSkin.Controls.MaterialCheckbox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -251,11 +252,30 @@
             this.materialDestLaunch.Text = " ";
             this.materialDestLaunch.TrailingIcon = null;
             // 
+            // chkLaunchOptions
+            // 
+            this.chkLaunchOptions.AutoSize = true;
+            this.chkLaunchOptions.Checked = true;
+            this.chkLaunchOptions.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLaunchOptions.Depth = 0;
+            this.chkLaunchOptions.Location = new System.Drawing.Point(20, 395);
+            this.chkLaunchOptions.Margin = new System.Windows.Forms.Padding(0);
+            this.chkLaunchOptions.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.chkLaunchOptions.MouseState = MaterialSkin.MouseState.HOVER;
+            this.chkLaunchOptions.Name = "chkLaunchOptions";
+            this.chkLaunchOptions.ReadOnly = false;
+            this.chkLaunchOptions.Ripple = true;
+            this.chkLaunchOptions.Size = new System.Drawing.Size(293, 37);
+            this.chkLaunchOptions.TabIndex = 14;
+            this.chkLaunchOptions.Text = "Launch Options (Requires Relaunch)";
+            this.chkLaunchOptions.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(500, 450);
+            this.Controls.Add(this.chkLaunchOptions);
             this.Controls.Add(this.materialDestLaunch);
             this.Controls.Add(this.chkVideo);
             this.Controls.Add(this.materialTextBoxLaunch);
@@ -293,5 +313,6 @@
         private MaterialSkin.Controls.MaterialTextBox materialTextBoxLaunch;
         private MaterialSkin.Controls.MaterialCheckbox chkVideo;
         private MaterialSkin.Controls.MaterialTextBox materialDestLaunch;
+        private MaterialSkin.Controls.MaterialCheckbox chkLaunchOptions;
     }
 }

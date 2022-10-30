@@ -20,18 +20,11 @@ namespace ConfigXpy
         public MainForm()
         {
             InitializeComponent();
-
-            // Initialize MaterialSkinManager
             materialSkinManager = MaterialSkinManager.Instance;
-
-            // Set this to false to disable backcolor enforcing on non-materialSkin components
-            // This HAS to be set before the AddFormToManage()
             materialSkinManager.EnforceBackcolorOnAllComponents = true;
-
-            // MaterialSkinManager properties
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.Indigo500, Primary.Indigo700, Primary.Indigo100, Accent.Pink200, TextShade.WHITE);
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.DeepPurple500, Primary.DeepPurple700, Primary.DeepPurple100, Accent.Pink200, TextShade.WHITE);
 
         }
 
@@ -54,26 +47,11 @@ namespace ConfigXpy
             var directories = Directory.GetDirectories(userData);
             foreach (var directory in directories)
             {
-                var fileName = directory + "\\config\\localconfig.vdf";
-                var baseName = Path.GetFileName(directory);
-                if (File.Exists(fileName))
+                try
                 {
-                    var content = File.ReadAllText(fileName);
-                    VProperty vdfConfig = VdfConvert.Deserialize(
-                        content, new VdfSerializerSettings()
-                        {
-                            MaximumTokenSize = 65536,
-                            UsesEscapeSequences = true
-                        }
-                    );
-                    VToken val = vdfConfig.Value;
-                    try
-                    {
-                        string name = val["friends"]["PersonaName"].ToString();
-                        configs.Add(new SteamConfig(baseName, directory, name, val));
-                    }
-                    catch (Exception) { }
+                    configs.Add(new SteamConfig(directory));
                 }
+                catch (Exception) { }
             }
 
             configs = configs.OrderBy(o => Int32.Parse(o.steamID)).ToList();
@@ -95,8 +73,11 @@ namespace ConfigXpy
                 if (config.steamID == currentActiveUser)
                 {
                     cmbDest.SelectedIndex = index;
-                    var launch = configs[cmbDest.SelectedIndex].GetLaunchOptions();
-                    materialDestLaunch.Text = launch.ToString();
+                    cmbSource.SelectedIndex = index;
+
+                    materialTextBoxLaunch.Text = configs[cmbSource.SelectedIndex].GetLaunchOptions().ToString();
+                    materialDestLaunch.Text = configs[cmbDest.SelectedIndex].GetLaunchOptions().ToString();
+
                     btnCopy.Enabled = false;
                     btnCopy.UseAccentColor = false;
                 }
@@ -145,6 +126,16 @@ namespace ConfigXpy
                         catch (Exception) { }
                     }
                 }
+
+                if (chkLaunchOptions.Checked)
+                {
+                    configs[cmbDest.SelectedIndex].WriteLaunchOptions(
+                        configs[cmbSource.SelectedIndex].GetLaunchOptions()
+                    );
+                    var launch = configs[cmbDest.SelectedIndex].GetLaunchOptions();
+                    materialDestLaunch.Text = launch.ToString();
+                }
+
                 btnCopy.Text = String.Format("{0} copied", cnt);
                 btnCopy.UseAccentColor = true;
             }
