@@ -1,3 +1,4 @@
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,14 @@ namespace ConfigXpy
         [STAThread]
         static void Main()
         {
+
+            Environment.SetEnvironmentVariable("SteamAppId", "2362360");
+            SteamAPI.Init();
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new CSGO());
         }
     }
 }

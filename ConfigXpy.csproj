@@ -2,20 +2,32 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	<ApplicationIcon>favicon.ico</ApplicationIcon>
+	<ApplicationIcon>logo.ico</ApplicationIcon>
+	<PackageIcon>logo.png</PackageIcon>
+	<ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="favicon.ico" />
+    <Content Include="logo.ico" />
   </ItemGroup>
 
-  <ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="steam_api64.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
     <PackageReference Include="Gameloop.Vdf" Version="0.6.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.22.1" />
+    <PackageReference Include="Google.Protobuf.Tools" Version="3.22.1" />
     <PackageReference Include="MaterialSkin.2" Version="2.3.1" />
+    <PackageReference Include="Steamworks.NET" Version="20.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +43,13 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

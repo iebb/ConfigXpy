@@ -1,0 +1,21 @@
+syntax = "proto3";
+option csharp_namespace = "ConfigXpy";
+
+
+message CloudFile {
+  string filename = 1;
+  string filetype = 2;
+  string relative_path = 3;
+  int32 length = 6;
+  bytes contents = 7;
+}
+
+message CloudStorage {
+  string save_slot = 1;
+  repeated CloudFile files = 6;
+  string launch_options = 7;
+}
+
+message CloudMeta {
+  repeated string save_slots = 1;
+}
